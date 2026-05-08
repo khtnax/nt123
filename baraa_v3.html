@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="mn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Барааны сан</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f7f7f5;
+        color: #1a1a1a;
+        min-height: 100vh;
+      }
+      .app {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 4rem;
+      }
+      /* topbar */
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+      .logo {
+        font-size: 17px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .logo i {
+        font-size: 20px;
+      }
+      .right-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .tabs {
+        display: flex;
+        gap: 2px;
+        background: #ebebeb;
+        border-radius: 10px;
+        padding: 3px;
+      }
+      .tab {
+        padding: 6px 18px;
+        border: none;
+        background: none;
+        font-size: 13px;
+        color: #666;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.15s;
+        font-family: inherit;
+      }
+      .tab.active {
+        background: #fff;
+        color: #1a1a1a;
+        font-weight: 500;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+      .add-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        background: #1a1a1a;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: opacity 0.15s;
+        font-family: inherit;
+      }
+      .add-btn:hover {
+        opacity: 0.8;
+      }
+      /* stats */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 1.5rem;
+      }
+      .stat {
+        background: #fff;
+        border-radius: 12px;
+        padding: 14px 16px;
+        border: 1px solid #ebebeb;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: #999;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .stat-val {
+        font-size: 22px;
+        font-weight: 600;
+      }
+      /* search */
+      .search {
+        margin-bottom: 1.25rem;
+        position: relative;
+      }
+      .search i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa;
+        font-size: 16px;
+        pointer-events: none;
+      }
+      .search input {
+        width: 100%;
+        padding: 10px 12px 10px 38px;
+        font-size: 14px;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        background: #fff;
+        outline: none;
+        font-family: inherit;
+        transition: border-color 0.15s;
+      }
+      .search input:focus {
+        border-color: #aaa;
+      }
+      /* grid */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+        gap: 14px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #ebebeb;
+        border-radius: 14px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition:
+          border-color 0.15s,
+          transform 0.15s;
+      }
+      .card:hover {
+        border-color: #d0d0d0;
+        transform: translateY(-1px);
+      }
+      .thumb {
+        width: 100%;
+        height: 148px;
+        background: #f7f7f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .no-img {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        color: #ccc;
+      }
+      .no-img i {
+        font-size: 30px;
+      }
+      .no-img span {
+        font-size: 11px;
+      }
+      .card-body {
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        flex: 1;
+      }
+      .card-name {
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .card-price {
+        font-size: 15px;
+        font-weight: 700;
+        color: #1a1a1a;
+      }
+      .stock-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+      }
+      .badge {
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 20px;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+      .badge-ok {
+        background: #e6f9f0;
+        color: #14804a;
+      }
+      .badge-low {
+        background: #fff7e6;
+        color: #b45309;
+      }
+      .badge-out {
+        background: #fff0f0;
+        color: #c0392b;
+      }
+      .qty-ctrl {
+        display: flex;
+        align-items: center;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .qty-btn {
+        width: 28px;
+        height: 28px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.12s;
+        font-family: inherit;
+        line-height: 1;
+      }
+      .qty-btn:hover {
+        background: #f5f5f5;
+        color: #1a1a1a;
+      }
+      .qty-btn:active {
+        background: #ebebeb;
+      }
+      .qty-val {
+        min-width: 28px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 600;
+        border-left: 1px solid #f0f0f0;
+        border-right: 1px solid #f0f0f0;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .card-foot {
+        display: flex;
+        gap: 7px;
+        padding-top: 8px;
+        border-top: 1px solid #f0f0f0;
+        margin-top: auto;
+      }
+      .btn-edit {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        font-size: 12px;
+        padding: 6px;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        background: none;
+        color: #666;
+        cursor: pointer;
+        transition: all 0.12s;
+        font-family: inherit;
+      }
+      .btn-edit:hover {
+        background: #f7f7f5;
+        color: #1a1a1a;
+        border-color: #d0d0d0;
+      }
+      .btn-del {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        padding: 6px 10px;
+        border: 1px solid #ffe0e0;
+        border-radius: 8px;
+        background: none;
+        color: #e53935;
+        cursor: pointer;
+        transition: background 0.12s;
+        font-family: inherit;
+      }
+      .btn-del:hover {
+        background: #fff0f0;
+      }
+      .empty {
+        text-align: center;
+        color: #bbb;
+        padding: 4rem 0;
+        font-size: 13px;
+        grid-column: 1/-1;
+      }
+      .empty i {
+        font-size: 36px;
+        display: block;
+        margin-bottom: 10px;
+      }
+      /* history */
+      .hist-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+      .hist-count {
+        font-size: 13px;
+        color: #999;
+      }
+      .clear-hist {
+        font-size: 12px;
+        color: #e53935;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .clear-hist:hover {
+        opacity: 0.7;
+      }
+      .hist-list {
+        display: flex;
+        flex-direction: column;
+      }
+      .hist-divider {
+        font-size: 11px;
+        color: #999;
+        padding: 14px 0 6px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 4px;
+      }
+      .hist-item {
+        display: grid;
+        grid-template-columns: 36px 1fr auto;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 8px;
+        border-radius: 10px;
+        transition: background 0.12s;
+      }
+      .hist-item:hover {
+        background: #f7f7f5;
+      }
+      .hist-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+      .hi-add {
+        background: #e6f9f0;
+        color: #14804a;
+      }
+      .hi-del {
+        background: #fff0f0;
+        color: #e53935;
+      }
+      .hi-qty {
+        background: #e8f4fd;
+        color: #1565c0;
+      }
+      .hi-edit {
+        background: #fff7e6;
+        color: #b45309;
+      }
+      .hist-text {
+        font-size: 13px;
+        color: #1a1a1a;
+        font-weight: 500;
+      }
+      .hist-sub {
+        font-size: 11px;
+        color: #999;
+        margin-top: 2px;
+      }
+      .hist-time {
+        font-size: 11px;
+        color: #bbb;
+        white-space: nowrap;
+      }
+      /* modal */
+      .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+      }
+      .overlay.open {
+        display: flex;
+      }
+      .modal {
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #ebebeb;
+        padding: 1.5rem;
+        width: 350px;
+        max-width: 96vw;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      }
+      .modal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.25rem;
+      }
+      .modal-head h2 {
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .xbtn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #999;
+        font-size: 18px;
+        line-height: 1;
+        padding: 4px;
+        border-radius: 6px;
+        font-family: inherit;
+        display: flex;
+      }
+      .xbtn:hover {
+        color: #1a1a1a;
+        background: #f5f5f5;
+      }
+      .field {
+        margin-bottom: 14px;
+      }
+      .field label {
+        font-size: 12px;
+        color: #666;
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      .field input {
+        width: 100%;
+        padding: 9px 12px;
+        font-size: 14px;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        outline: none;
+        font-family: inherit;
+        transition: border-color 0.15s;
+      }
+      .field input:focus {
+        border-color: #999;
+      }
+      .upload-zone {
+        width: 100%;
+        height: 110px;
+        border: 1.5px dashed #d0d0d0;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        cursor: pointer;
+        transition: all 0.15s;
+        position: relative;
+        overflow: hidden;
+        background: #fafafa;
+      }
+      .upload-zone:hover {
+        border-color: #999;
+        background: #f5f5f5;
+      }
+      .upload-zone input[type="file"] {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+      }
+      .upload-zone i {
+        font-size: 24px;
+        color: #bbb;
+      }
+      .upload-zone span {
+        font-size: 12px;
+        color: #999;
+      }
+      .prev-img {
+        width: 100%;
+        height: 110px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: none;
+        border: 1px solid #ebebeb;
+      }
+      .rm-img {
+        font-size: 11px;
+        color: #e53935;
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-top: 6px;
+        display: none;
+        font-family: inherit;
+        padding: 0;
+      }
+      .modal-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 1.25rem;
+      }
+      .btn-save {
+        flex: 1;
+        padding: 10px;
+        background: #1a1a1a;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.15s;
+        font-family: inherit;
+      }
+      .btn-save:hover {
+        opacity: 0.8;
+      }
+      .btn-cancel {
+        flex: 1;
+        padding: 10px;
+        background: none;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        font-size: 13px;
+        color: #666;
+        cursor: pointer;
+        transition: background 0.12s;
+        font-family: inherit;
+      }
+      .btn-cancel:hover {
+        background: #f7f7f5;
+      }
+      /* toast */
+      .toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(60px);
+        background: #1a1a1a;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 13px;
+        opacity: 0;
+        transition: all 0.25s;
+        z-index: 999;
+        white-space: nowrap;
+        pointer-events: none;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="topbar">
+        <div class="logo"><i class="ti ti-shopping-bag"></i> Барааны сан</div>
+        <div class="right-bar">
+          <div class="tabs">
+            <button class="tab active" onclick="switchTab('items', this)">
+              Бараа
+            </button>
+            <button class="tab" onclick="switchTab('history', this)">
+              Түүх
+            </button>
+          </div>
+          <button class="add-btn" id="add-btn" onclick="openModal()">
+            <i class="ti ti-plus"></i> Нэмэх
+          </button>
+        </div>
+      </div>
+
+      <div id="tab-items">
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-label">Нийт бараа</div>
+            <div class="stat-val" id="s-total">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Нийт ширхэг</div>
+            <div class="stat-val" id="s-qty">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Дууссан</div>
+            <div class="stat-val" id="s-out" style="color: #e53935">0</div>
+          </div>
+        </div>
+        <div class="search">
+          <i class="ti ti-search"></i
+          ><input
+            type="text"
+            id="search"
+            placeholder="Хайх..."
+            oninput="render()"
+          />
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+
+      <div id="tab-history" style="display: none">
+        <div class="hist-header">
+          <span class="hist-count" id="hist-count"></span>
+          <button class="clear-hist" onclick="clearHistory()">
+            <i class="ti ti-trash" style="font-size: 12px"></i> Бүгдийг арилгах
+          </button>
+        </div>
+        <div class="hist-list" id="hist-list"></div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="bgClose(event)">
+      <div class="modal" role="dialog" aria-modal="true">
+        <div class="modal-head">
+          <h2 id="modal-title">Бараа нэмэх</h2>
+          <button class="xbtn" onclick="closeModal()" aria-label="Хаах">
+            <i class="ti ti-x"></i>
+          </button>
+        </div>
+        <div class="field">
+          <label>Барааны нэр *</label
+          ><input type="text" id="f-name" placeholder="жш: Гутал Nike" />
+        </div>
+        <div class="field">
+          <label>Үнэ (₮) *</label
+          ><input type="number" id="f-price" placeholder="50000" min="0" />
+        </div>
+        <div class="field">
+          <label>Тоо ширхэг *</label
+          ><input type="number" id="f-qty" placeholder="10" min="0" />
+        </div>
+        <div class="field">
+          <label>Зураг</label>
+          <div class="upload-zone" id="upload-zone">
+            <input
+              type="file"
+              accept="image/*"
+              id="f-img"
+              onchange="handleImg(event)"
+            />
+            <i class="ti ti-photo-up"></i>
+            <span>Зураг сонгох эсвэл чирж оруулах</span>
+          </div>
+          <img id="prev-img" class="prev-img" alt="preview" />
+          <button class="rm-img" id="rm-img" onclick="removeImg()">
+            <i class="ti ti-x"></i> Зураг хасах
+          </button>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeModal()">Болих</button>
+          <button class="btn-save" onclick="save()">Хадгалах</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      const IKEY = "baraa_v3_items",
+        HKEY = "baraa_v3_history";
+      let items = [],
+        history = [],
+        editId = null,
+        curImg = null;
+
+      function load() {
+        try {
+          items = JSON.parse(localStorage.getItem(IKEY)) || [];
+        } catch (e) {
+          items = [];
+        }
+        try {
+          history = JSON.parse(localStorage.getItem(HKEY)) || [];
+        } catch (e) {
+          history = [];
+        }
+        if (!items.length)
+          items = [
+            {
+              id: 1,
+              name: "Гутал Nike Air Max",
+              price: 180000,
+              qty: 12,
+              img: "",
+            },
+            {
+              id: 2,
+              name: "Цамц Adidas Classic",
+              price: 45000,
+              qty: 3,
+              img: "",
+            },
+            { id: 3, name: "Малгай New Era", price: 35000, qty: 0, img: "" },
+          ];
+      }
+      function persist() {
+        try {
+          localStorage.setItem(IKEY, JSON.stringify(items));
+        } catch (e) {}
+        try {
+          localStorage.setItem(HKEY, JSON.stringify(history));
+        } catch (e) {}
+      }
+      function addHist(type, text, sub) {
+        history.unshift({
+          id: Date.now(),
+          type,
+          text,
+          sub: sub || "",
+          time: new Date().toISOString(),
+        });
+        if (history.length > 300) history.pop();
+        persist();
+      }
+      function toast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2000);
+      }
+      function stockInfo(q) {
+        if (q === 0) return { label: "Дууссан", cls: "badge-out" };
+        if (q <= 5) return { label: "Бага үлдсэн", cls: "badge-low" };
+        return { label: "Байгаа", cls: "badge-ok" };
+      }
+      function render() {
+        const q = document.getElementById("search").value.toLowerCase();
+        const f = items.filter((i) => i.name.toLowerCase().includes(q));
+        document.getElementById("s-total").textContent = items.length;
+        document.getElementById("s-qty").textContent = items
+          .reduce((a, i) => a + i.qty, 0)
+          .toLocaleString();
+        document.getElementById("s-out").textContent = items.filter(
+          (i) => i.qty === 0,
+        ).length;
+        const grid = document.getElementById("grid");
+        if (!f.length) {
+          grid.innerHTML =
+            '<div class="empty"><i class="ti ti-ghost-2"></i>Бараа олдсонгүй</div>';
+          return;
+        }
+        grid.innerHTML = f
+          .map((item) => {
+            const si = stockInfo(item.qty);
+            const thumb = item.img
+              ? `<img src="${item.img}" alt="${item.name}" onerror="this.parentElement.innerHTML='<div class=no-img><i class=ti.ti-photo-off></i><span>Алдаа</span></div>'" />`
+              : `<div class="no-img"><i class="ti ti-shirt"></i><span>Зураг байхгүй</span></div>`;
+            return `<div class="card">
+      <div class="thumb">${thumb}</div>
+      <div class="card-body">
+        <div class="card-name" title="${item.name}">${item.name}</div>
+        <div class="card-price">${item.price.toLocaleString()}₮</div>
+        <div class="stock-row">
+          <span class="badge ${si.cls}">${si.label}</span>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(${item.id},-1)" aria-label="Хасах">−</button>
+            <span class="qty-val">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id},1)" aria-label="Нэмэх">+</button>
+          </div>
+        </div>
+        <div class="card-foot">
+          <button class="btn-edit" onclick="openModal(${item.id})"><i class="ti ti-edit"></i> Засах</button>
+          <button class="btn-del" onclick="del(${item.id})" aria-label="Устгах"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+    </div>`;
+          })
+          .join("");
+      }
+      function changeQty(id, delta) {
+        const item = items.find((i) => i.id === id);
+        if (!item) return;
+        const prev = item.qty;
+        item.qty = Math.max(0, item.qty + delta);
+        if (item.qty === prev) return;
+        addHist(
+          "qty",
+          item.name,
+          delta > 0
+            ? `+${delta} ширхэг нэмэгдлээ (${prev}→${item.qty})`
+            : `${delta} ширхэг хасагдлаа (${prev}→${item.qty})`,
+        );
+        persist();
+        render();
+      }
+      function renderHistory() {
+        const list = document.getElementById("hist-list");
+        document.getElementById("hist-count").textContent = history.length
+          ? `${history.length} үйлдэл`
+          : "Түүх байхгүй";
+        if (!history.length) {
+          list.innerHTML =
+            '<div class="empty" style="grid-column:unset"><i class="ti ti-history"></i>Түүх хоосон байна</div>';
+          return;
+        }
+        const icons = {
+          add: "ti-plus",
+          del: "ti-trash",
+          qty: "ti-arrows-exchange",
+          edit: "ti-edit",
+        };
+        let html = "",
+          lastDate = "";
+        history.forEach((h) => {
+          const d = new Date(h.time);
+          const dStr = d.toLocaleDateString("mn-MN", {
+            month: "long",
+            day: "numeric",
+          });
+          const tStr = d.toLocaleTimeString("mn-MN", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          if (dStr !== lastDate) {
+            html += `<div class="hist-divider">${dStr}</div>`;
+            lastDate = dStr;
+          }
+          html += `<div class="hist-item">
+      <div class="hist-icon hi-${h.type}"><i class="ti ${icons[h.type] || "ti-dot"}"></i></div>
+      <div><div class="hist-text">${h.text}</div>${h.sub ? `<div class="hist-sub">${h.sub}</div>` : ""}</div>
+      <div class="hist-time">${tStr}</div>
+    </div>`;
+        });
+        list.innerHTML = html;
+      }
+      function clearHistory() {
+        if (!confirm("Бүх түүхийг арилгах уу?")) return;
+        history = [];
+        persist();
+        renderHistory();
+        toast("Түүх арилгагдлаа");
+      }
+      function switchTab(tab, btn) {
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("tab-items").style.display =
+          tab === "items" ? "block" : "none";
+        document.getElementById("tab-history").style.display =
+          tab === "history" ? "block" : "none";
+        document.getElementById("add-btn").style.display =
+          tab === "items" ? "flex" : "none";
+        if (tab === "history") renderHistory();
+      }
+      function openModal(id) {
+        editId = id || null;
+        curImg = null;
+        document.getElementById("modal-title").textContent = id
+          ? "Бараа засах"
+          : "Бараа нэмэх";
+        const prev = document.getElementById("prev-img"),
+          rm = document.getElementById("rm-img"),
+          zone = document.getElementById("upload-zone");
+        document.getElementById("f-img").value = "";
+        if (id) {
+          const item = items.find((i) => i.id === id);
+          document.getElementById("f-name").value = item.name;
+          document.getElementById("f-price").value = item.price;
+          document.getElementById("f-qty").value = item.qty;
+          if (item.img) {
+            curImg = item.img;
+            prev.src = item.img;
+            prev.style.display = "block";
+            zone.style.display = "none";
+            rm.style.display = "inline-block";
+          } else {
+            prev.style.display = "none";
+            zone.style.display = "flex";
+            rm.style.display = "none";
+          }
+        } else {
+          document.getElementById("f-name").value = "";
+          document.getElementById("f-price").value = "";
+          document.getElementById("f-qty").value = "";
+          prev.style.display = "none";
+          zone.style.display = "flex";
+          rm.style.display = "none";
+        }
+        document.getElementById("overlay").classList.add("open");
+        setTimeout(() => document.getElementById("f-name").focus(), 80);
+      }
+      function closeModal() {
+        document.getElementById("overlay").classList.remove("open");
+      }
+      function bgClose(e) {
+        if (e.target === document.getElementById("overlay")) closeModal();
+      }
+      function handleImg(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          curImg = ev.target.result;
+          const prev = document.getElementById("prev-img");
+          prev.src = curImg;
+          prev.style.display = "block";
+          document.getElementById("upload-zone").style.display = "none";
+          document.getElementById("rm-img").style.display = "inline-block";
+        };
+        reader.readAsDataURL(file);
+      }
+      function removeImg() {
+        curImg = null;
+        document.getElementById("prev-img").style.display = "none";
+        document.getElementById("upload-zone").style.display = "flex";
+        document.getElementById("rm-img").style.display = "none";
+        document.getElementById("f-img").value = "";
+      }
+      function save() {
+        const name = document.getElementById("f-name").value.trim();
+        const price = parseInt(document.getElementById("f-price").value) || 0;
+        const qty = parseInt(document.getElementById("f-qty").value);
+        if (!name) {
+          document.getElementById("f-name").focus();
+          return;
+        }
+        if (isNaN(qty) || qty < 0) {
+          document.getElementById("f-qty").focus();
+          return;
+        }
+        if (editId) {
+          const item = items.find((i) => i.id === editId);
+          const changed = [];
+          if (item.name !== name) changed.push(`нэр өөрчлөгдлөө`);
+          if (item.price !== price)
+            changed.push(
+              `үнэ: ${item.price.toLocaleString()}→${price.toLocaleString()}₮`,
+            );
+          if (item.qty !== qty) changed.push(`тоо: ${item.qty}→${qty}`);
+          Object.assign(item, {
+            name,
+            price,
+            qty,
+            img: curImg !== null ? curImg : item.img,
+          });
+          addHist(
+            "edit",
+            name,
+            changed.length ? changed.join(" · ") : "Мэдээлэл шинэчлэгдлээ",
+          );
+          toast("Хадгалагдлаа ✓");
+        } else {
+          items.unshift({
+            id: Date.now(),
+            name,
+            price,
+            qty,
+            img: curImg || "",
+          });
+          addHist("add", name, `${price.toLocaleString()}₮ · ${qty} ширхэг`);
+          toast("Нэмэгдлээ ✓");
+        }
+        persist();
+        closeModal();
+        render();
+      }
+      function del(id) {
+        const item = items.find((i) => i.id === id);
+        if (!item) return;
+        if (!confirm(`"${item.name}" устгах уу?`)) return;
+        items = items.filter((i) => i.id !== id);
+        addHist(
+          "del",
+          item.name,
+          `${item.price.toLocaleString()}₮ · ${item.qty} ширхэг байсан`,
+        );
+        persist();
+        render();
+        toast("Устгагдлаа");
+      }
+      load();
+      render();
+    </script>
+  </body>
+</html>
