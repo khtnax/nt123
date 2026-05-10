@@ -20,12 +20,85 @@
         color: #1a1a1a;
         min-height: 100vh;
       }
+      .login-wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      .login-box {
+        background: #fff;
+        border: 1px solid #ebebeb;
+        border-radius: 16px;
+        padding: 2rem;
+        width: 320px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+      }
+      .login-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 1.75rem;
+      }
+      .login-logo i {
+        font-size: 22px;
+      }
+      .login-field {
+        margin-bottom: 14px;
+      }
+      .login-field label {
+        font-size: 12px;
+        color: #666;
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      .login-field input {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 14px;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        outline: none;
+        font-family: inherit;
+        transition: border-color 0.15s;
+      }
+      .login-field input:focus {
+        border-color: #999;
+      }
+      .login-btn {
+        width: 100%;
+        padding: 10px;
+        background: #1a1a1a;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
+        margin-top: 6px;
+        transition: opacity 0.15s;
+      }
+      .login-btn:hover {
+        opacity: 0.8;
+      }
+      .login-err {
+        font-size: 12px;
+        color: #e53935;
+        margin-top: 10px;
+        text-align: center;
+        min-height: 18px;
+      }
       .app {
         max-width: 900px;
         margin: 0 auto;
         padding: 2rem 1.25rem 4rem;
+        display: none;
       }
-      /* topbar */
       .topbar {
         display: flex;
         justify-content: space-between;
@@ -38,9 +111,6 @@
         display: flex;
         align-items: center;
         gap: 8px;
-      }
-      .logo i {
-        font-size: 20px;
       }
       .right-bar {
         display: flex;
@@ -89,7 +159,24 @@
       .add-btn:hover {
         opacity: 0.8;
       }
-      /* stats */
+      .logout-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 7px 13px;
+        background: none;
+        border: 1px solid #e5e5e5;
+        border-radius: 9px;
+        font-size: 12px;
+        color: #999;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.15s;
+      }
+      .logout-btn:hover {
+        border-color: #ccc;
+        color: #1a1a1a;
+      }
       .stats {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -113,7 +200,6 @@
         font-size: 22px;
         font-weight: 600;
       }
-      /* search */
       .search {
         margin-bottom: 1.25rem;
         position: relative;
@@ -141,7 +227,6 @@
       .search input:focus {
         border-color: #aaa;
       }
-      /* grid */
       .grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
@@ -207,7 +292,6 @@
       .card-price {
         font-size: 15px;
         font-weight: 700;
-        color: #1a1a1a;
       }
       .stock-row {
         display: flex;
@@ -259,9 +343,6 @@
       .qty-btn:hover {
         background: #f5f5f5;
         color: #1a1a1a;
-      }
-      .qty-btn:active {
-        background: #ebebeb;
       }
       .qty-val {
         min-width: 28px;
@@ -332,7 +413,6 @@
         display: block;
         margin-bottom: 10px;
       }
-      /* history */
       .hist-header {
         display: flex;
         justify-content: space-between;
@@ -353,9 +433,6 @@
         display: flex;
         align-items: center;
         gap: 4px;
-      }
-      .clear-hist:hover {
-        opacity: 0.7;
       }
       .hist-list {
         display: flex;
@@ -424,7 +501,6 @@
         color: #bbb;
         white-space: nowrap;
       }
-      /* modal */
       .overlay {
         display: none;
         position: fixed;
@@ -467,8 +543,8 @@
         line-height: 1;
         padding: 4px;
         border-radius: 6px;
-        font-family: inherit;
         display: flex;
+        font-family: inherit;
       }
       .xbtn:hover {
         color: #1a1a1a;
@@ -588,7 +664,6 @@
       .btn-cancel:hover {
         background: #f7f7f5;
       }
-      /* toast */
       .toast {
         position: fixed;
         bottom: 28px;
@@ -609,10 +684,66 @@
         opacity: 1;
         transform: translateX(-50%) translateY(0);
       }
+      .syncing {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        font-size: 12px;
+        color: #999;
+        background: #fff;
+        border: 1px solid #ebebeb;
+        border-radius: 8px;
+        padding: 6px 12px;
+        display: none;
+        align-items: center;
+        gap: 6px;
+        z-index: 999;
+      }
+      .syncing.show {
+        display: flex;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .spin {
+        animation: spin 0.8s linear infinite;
+        display: inline-block;
+      }
     </style>
   </head>
   <body>
-    <div class="app">
+    <div class="login-wrap" id="login-wrap">
+      <div class="login-box">
+        <div class="login-logo">
+          <i class="ti ti-shopping-bag"></i> Барааны сан
+        </div>
+        <div class="login-field">
+          <label>Нэвтрэх нэр</label>
+          <input
+            type="text"
+            id="l-user"
+            placeholder="Нэвтрэх нэр"
+            autocomplete="username"
+          />
+        </div>
+        <div class="login-field">
+          <label>Нууц үг</label>
+          <input
+            type="password"
+            id="l-pass"
+            placeholder="Нууц үг"
+            autocomplete="current-password"
+            onkeydown="if (event.key === 'Enter') doLogin();"
+          />
+        </div>
+        <button class="login-btn" onclick="doLogin()">Нэвтрэх</button>
+        <div class="login-err" id="login-err"></div>
+      </div>
+    </div>
+
+    <div class="app" id="app">
       <div class="topbar">
         <div class="logo"><i class="ti ti-shopping-bag"></i> Барааны сан</div>
         <div class="right-bar">
@@ -626,6 +757,9 @@
           </div>
           <button class="add-btn" id="add-btn" onclick="openModal()">
             <i class="ti ti-plus"></i> Нэмэх
+          </button>
+          <button class="logout-btn" onclick="doLogout()">
+            <i class="ti ti-logout" style="font-size: 14px"></i> Гарах
           </button>
         </div>
       </div>
@@ -672,7 +806,7 @@
       <div class="modal" role="dialog" aria-modal="true">
         <div class="modal-head">
           <h2 id="modal-title">Бараа нэмэх</h2>
-          <button class="xbtn" onclick="closeModal()" aria-label="Хаах">
+          <button class="xbtn" onclick="closeModal()">
             <i class="ti ti-x"></i>
           </button>
         </div>
@@ -712,54 +846,121 @@
       </div>
     </div>
 
+    <div class="syncing" id="syncing">
+      <i class="ti ti-refresh spin"></i> Хадгалж байна...
+    </div>
     <div class="toast" id="toast"></div>
 
-    <script>
-      const IKEY = "baraa_v3_items",
-        HKEY = "baraa_v3_history";
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+        get,
+        onValue,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDnWKZ6BZUPjn7TxhanbDVL4G9Y39ElZSo",
+        authDomain: "baraa-67e1e.firebaseapp.com",
+        databaseURL:
+          "https://baraa-67e1e-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "baraa-67e1e",
+        storageBucket: "baraa-67e1e.firebasestorage.app",
+        messagingSenderId: "41576375167",
+        appId: "1:41576375167:web:6d4ed59180104b8459f04a",
+      };
+
+      const fbApp = initializeApp(firebaseConfig);
+      const db = getDatabase(fbApp);
+
+      const CREDS = { user: "nt1223", pass: "Dukdok44$" };
+      const SKEY = "baraa_session";
       let items = [],
         history = [],
         editId = null,
         curImg = null;
 
-      function load() {
-        try {
-          items = JSON.parse(localStorage.getItem(IKEY)) || [];
-        } catch (e) {
-          items = [];
-        }
-        try {
-          history = JSON.parse(localStorage.getItem(HKEY)) || [];
-        } catch (e) {
-          history = [];
-        }
-        if (!items.length)
-          items = [
-            {
-              id: 1,
-              name: "Гутал Nike Air Max",
-              price: 180000,
-              qty: 12,
-              img: "",
-            },
-            {
-              id: 2,
-              name: "Цамц Adidas Classic",
-              price: 45000,
-              qty: 3,
-              img: "",
-            },
-            { id: 3, name: "Малгай New Era", price: 35000, qty: 0, img: "" },
-          ];
+      // SYNC indicator
+      function showSync(v) {
+        document.getElementById("syncing").classList.toggle("show", v);
       }
-      function persist() {
+
+      // Firebase persist
+      async function persist() {
+        showSync(true);
         try {
-          localStorage.setItem(IKEY, JSON.stringify(items));
-        } catch (e) {}
-        try {
-          localStorage.setItem(HKEY, JSON.stringify(history));
-        } catch (e) {}
+          await set(ref(db, "baraa/items"), items);
+          await set(ref(db, "baraa/history"), history);
+        } catch (e) {
+          console.error(e);
+        }
+        showSync(false);
       }
+
+      // Load from Firebase
+      async function loadFromDB() {
+        try {
+          const snap = await get(ref(db, "baraa"));
+          if (snap.exists()) {
+            const d = snap.val();
+            items = d.items || [];
+            history = d.history || [];
+          }
+        } catch (e) {
+          console.error(e);
+        }
+        render();
+      }
+
+      // Listen realtime
+      function listenDB() {
+        onValue(ref(db, "baraa/items"), (snap) => {
+          if (snap.exists()) items = snap.val() || [];
+          render();
+        });
+        onValue(ref(db, "baraa/history"), (snap) => {
+          if (snap.exists()) history = snap.val() || [];
+        });
+      }
+
+      function doLogin() {
+        const u = document.getElementById("l-user").value.trim();
+        const p = document.getElementById("l-pass").value;
+        const err = document.getElementById("login-err");
+        if (u === CREDS.user && p === CREDS.pass) {
+          localStorage.setItem(SKEY, "1");
+          err.textContent = "";
+          showApp();
+        } else {
+          err.textContent = "Нэвтрэх нэр эсвэл нууц үг буруу байна.";
+          document.getElementById("l-pass").value = "";
+          document.getElementById("l-pass").focus();
+        }
+      }
+      window.doLogin = doLogin;
+
+      function doLogout() {
+        localStorage.removeItem(SKEY);
+        document.getElementById("app").style.display = "none";
+        document.getElementById("login-wrap").style.display = "flex";
+        document.getElementById("l-user").value = "";
+        document.getElementById("l-pass").value = "";
+      }
+      window.doLogout = doLogout;
+
+      async function showApp() {
+        document.getElementById("login-wrap").style.display = "none";
+        document.getElementById("app").style.display = "block";
+        await loadFromDB();
+        listenDB();
+      }
+
+      function checkSession() {
+        if (localStorage.getItem(SKEY) === "1") showApp();
+      }
+
       function addHist(type, text, sub) {
         history.unshift({
           id: Date.now(),
@@ -769,21 +970,25 @@
           time: new Date().toISOString(),
         });
         if (history.length > 300) history.pop();
-        persist();
       }
+
       function toast(msg) {
         const t = document.getElementById("toast");
         t.textContent = msg;
         t.classList.add("show");
         setTimeout(() => t.classList.remove("show"), 2000);
       }
+
       function stockInfo(q) {
         if (q === 0) return { label: "Дууссан", cls: "badge-out" };
         if (q <= 5) return { label: "Бага үлдсэн", cls: "badge-low" };
         return { label: "Байгаа", cls: "badge-ok" };
       }
+
       function render() {
-        const q = document.getElementById("search").value.toLowerCase();
+        const q = document.getElementById("search")
+          ? document.getElementById("search").value.toLowerCase()
+          : "";
         const f = items.filter((i) => i.name.toLowerCase().includes(q));
         document.getElementById("s-total").textContent = items.length;
         document.getElementById("s-qty").textContent = items
@@ -802,7 +1007,7 @@
           .map((item) => {
             const si = stockInfo(item.qty);
             const thumb = item.img
-              ? `<img src="${item.img}" alt="${item.name}" onerror="this.parentElement.innerHTML='<div class=no-img><i class=ti.ti-photo-off></i><span>Алдаа</span></div>'" />`
+              ? `<img src="${item.img}" alt="${item.name}" onerror="this.parentElement.innerHTML='<div class=no-img><i class=ti></i><span>Алдаа</span></div>'" />`
               : `<div class="no-img"><i class="ti ti-shirt"></i><span>Зураг байхгүй</span></div>`;
             return `<div class="card">
       <div class="thumb">${thumb}</div>
@@ -812,21 +1017,23 @@
         <div class="stock-row">
           <span class="badge ${si.cls}">${si.label}</span>
           <div class="qty-ctrl">
-            <button class="qty-btn" onclick="changeQty(${item.id},-1)" aria-label="Хасах">−</button>
+            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
             <span class="qty-val">${item.qty}</span>
-            <button class="qty-btn" onclick="changeQty(${item.id},1)" aria-label="Нэмэх">+</button>
+            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
           </div>
         </div>
         <div class="card-foot">
           <button class="btn-edit" onclick="openModal(${item.id})"><i class="ti ti-edit"></i> Засах</button>
-          <button class="btn-del" onclick="del(${item.id})" aria-label="Устгах"><i class="ti ti-trash"></i></button>
+          <button class="btn-del" onclick="del(${item.id})"><i class="ti ti-trash"></i></button>
         </div>
       </div>
     </div>`;
           })
           .join("");
       }
-      function changeQty(id, delta) {
+      window.render = render;
+
+      async function changeQty(id, delta) {
         const item = items.find((i) => i.id === id);
         if (!item) return;
         const prev = item.qty;
@@ -839,9 +1046,11 @@
             ? `+${delta} ширхэг нэмэгдлээ (${prev}→${item.qty})`
             : `${delta} ширхэг хасагдлаа (${prev}→${item.qty})`,
         );
-        persist();
+        await persist();
         render();
       }
+      window.changeQty = changeQty;
+
       function renderHistory() {
         const list = document.getElementById("hist-list");
         document.getElementById("hist-count").textContent = history.length
@@ -882,13 +1091,16 @@
         });
         list.innerHTML = html;
       }
-      function clearHistory() {
+
+      async function clearHistory() {
         if (!confirm("Бүх түүхийг арилгах уу?")) return;
         history = [];
-        persist();
+        await persist();
         renderHistory();
         toast("Түүх арилгагдлаа");
       }
+      window.clearHistory = clearHistory;
+
       function switchTab(tab, btn) {
         document
           .querySelectorAll(".tab")
@@ -902,6 +1114,8 @@
           tab === "items" ? "flex" : "none";
         if (tab === "history") renderHistory();
       }
+      window.switchTab = switchTab;
+
       function openModal(id) {
         editId = id || null;
         curImg = null;
@@ -939,12 +1153,18 @@
         document.getElementById("overlay").classList.add("open");
         setTimeout(() => document.getElementById("f-name").focus(), 80);
       }
+      window.openModal = openModal;
+
       function closeModal() {
         document.getElementById("overlay").classList.remove("open");
       }
+      window.closeModal = closeModal;
+
       function bgClose(e) {
         if (e.target === document.getElementById("overlay")) closeModal();
       }
+      window.bgClose = bgClose;
+
       function handleImg(e) {
         const file = e.target.files[0];
         if (!file) return;
@@ -959,6 +1179,8 @@
         };
         reader.readAsDataURL(file);
       }
+      window.handleImg = handleImg;
+
       function removeImg() {
         curImg = null;
         document.getElementById("prev-img").style.display = "none";
@@ -966,7 +1188,9 @@
         document.getElementById("rm-img").style.display = "none";
         document.getElementById("f-img").value = "";
       }
-      function save() {
+      window.removeImg = removeImg;
+
+      async function save() {
         const name = document.getElementById("f-name").value.trim();
         const price = parseInt(document.getElementById("f-price").value) || 0;
         const qty = parseInt(document.getElementById("f-qty").value);
@@ -981,7 +1205,7 @@
         if (editId) {
           const item = items.find((i) => i.id === editId);
           const changed = [];
-          if (item.name !== name) changed.push(`нэр өөрчлөгдлөө`);
+          if (item.name !== name) changed.push("нэр өөрчлөгдлөө");
           if (item.price !== price)
             changed.push(
               `үнэ: ${item.price.toLocaleString()}→${price.toLocaleString()}₮`,
@@ -1010,11 +1234,13 @@
           addHist("add", name, `${price.toLocaleString()}₮ · ${qty} ширхэг`);
           toast("Нэмэгдлээ ✓");
         }
-        persist();
+        await persist();
         closeModal();
         render();
       }
-      function del(id) {
+      window.save = save;
+
+      async function del(id) {
         const item = items.find((i) => i.id === id);
         if (!item) return;
         if (!confirm(`"${item.name}" устгах уу?`)) return;
@@ -1024,12 +1250,13 @@
           item.name,
           `${item.price.toLocaleString()}₮ · ${item.qty} ширхэг байсан`,
         );
-        persist();
+        await persist();
         render();
         toast("Устгагдлаа");
       }
-      load();
-      render();
+      window.del = del;
+
+      checkSession();
     </script>
   </body>
 </html>
